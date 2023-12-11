@@ -171,10 +171,25 @@ export const embedDocuments = async (
       documents[index].embedding = embedding.embedding;
     });
   } catch (e) {
-    console.log(e);
     const error = e as any;
-    throw new Error(`${e} with code ${error.status}`);
-  }
+    if (error.status === 429) {
+        console.log("Rate limited. Waiting 60 seconds, then trying again");
+        await new Promise(r => setTimeout(r, 60000));
+        const contentsToEmbed = documents.map((d) => d.pageContent);
+
+        const embeddings = await openai.embeddings.create({
+            input: contentsToEmbed,
+            model: process.env.AZURE_OPENAI_API_EMBEDDINGS_DEPLOYMENT_NAME,
+        });
+
+        embeddings.data.forEach((embedding, index) => {
+            documents[index].embedding = embedding.embedding;
+        });
+    } else {
+        console.log(e);
+        throw new Error(`${e} with code ${error.status}`);
+    }
+      }
 };
 
 const baseUrl = (): string => {
