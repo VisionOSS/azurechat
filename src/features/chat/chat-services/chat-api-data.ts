@@ -7,7 +7,16 @@ import { initAndGuardChatSession } from "./chat-thread-service";
 import { CosmosDBChatMessageHistory } from "./cosmosdb/cosmosdb";
 import { PromptGPTProps } from "./models";
 
-const SYSTEM_PROMPT = `You are ${AI_NAME} who is a helpful AI Assistant.`;
+const SYSTEM_PROMPTS = {
+    "Marketing": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Marketing topics, providing assistance to employees of a medium-sized software company.`,
+    "Sales": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Sales topics, providing assistance to employees of a medium-sized software company.`,
+    "Global Services": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in professional services topics, providing assistance to employees of a medium-sized software company.`,
+    "Customer Success": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Customer Success topics, providing assistance to employees of a medium-sized software company.`,
+    "Engineering": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Engineering topics, providing assistance to employees of a medium-sized software company.`,
+    "Finance": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Finance topics, providing assistance to employees of a medium-sized software company.`,
+    "HR": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Human Resources topics, providing assistance to employees of a medium-sized software company.`,
+    "IT": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in IT topics, providing assistance to employees of a medium-sized software company.`,
+  }
 
 const CONTEXT_PROMPT = ({
   context,
@@ -20,11 +29,11 @@ const CONTEXT_PROMPT = ({
 - Given the following extracted parts of a long document, create a final answer. \n
 - If you don't know the answer, just say that you don't know. Don't try to make up an answer.\n
 - You must always include a citation at the end of your answer and don't include full stop.\n
-- Use the format for your citation {% citation items=[{name:"filename 1",id:"file id"}, {name:"filename 2",id:"file id"}] /%}\n 
-----------------\n 
-context:\n 
+- Use the format for your citation {% citation items=[{name:"filename 1",id:"file id"}, {name:"filename 2",id:"file id"}] /%}\n
+----------------\n
+context:\n
 ${context}
-----------------\n 
+----------------\n
 question: ${userQuestion}`;
 };
 
@@ -32,6 +41,7 @@ export const ChatAPIData = async (props: PromptGPTProps) => {
   const { lastHumanMessage, id, chatThread } = await initAndGuardChatSession(
     props
   );
+  const SYSTEM_PROMPT = SYSTEM_PROMPTS[chatThread.conversationPersona];
 
   const openAI = OpenAIInstance();
 

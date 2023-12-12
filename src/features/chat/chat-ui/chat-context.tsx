@@ -8,6 +8,7 @@ import {
   ChatMessageModel,
   ChatThreadModel,
   ChatType,
+  ConversationPersona,
   ConversationStyle,
   PromptGPTBody,
 } from "../chat-services/models";
@@ -28,6 +29,7 @@ interface ChatContextProps extends UseChatHelpers {
   chatBody: PromptGPTBody;
   fileState: FileState;
   onChatTypeChange: (value: ChatType) => void;
+  onConversationPersonaChange: (value: ConversationPersona) => void;
   onConversationStyleChange: (value: ConversationStyle) => void;
   speech: TextToSpeechProps & SpeechToTextProps;
 }
@@ -56,6 +58,7 @@ export const ChatProvider: FC<Prop> = (props) => {
   const [chatBody, setBody] = useState<PromptGPTBody>({
     id: props.chatThread.id,
     chatType: props.chatThread.chatType,
+    conversationPersona: props.chatThread.conversationPersona,
     conversationStyle: props.chatThread.conversationStyle,
     chatOverFileName: props.chatThread.chatOverFileName,
   });
@@ -87,6 +90,10 @@ export const ChatProvider: FC<Prop> = (props) => {
     setChatBody({ ...chatBody, chatType: value });
   };
 
+  const onConversationPersonaChange = (value: ConversationPersona) => {
+    setChatBody({ ...chatBody, conversationPersona: value });
+  };
+
   const onConversationStyleChange = (value: ConversationStyle) => {
     setChatBody({ ...chatBody, conversationStyle: value });
   };
@@ -102,6 +109,7 @@ export const ChatProvider: FC<Prop> = (props) => {
         setChatBody,
         chatBody,
         onChatTypeChange,
+        onConversationPersonaChange,
         onConversationStyleChange,
         fileState,
         id: props.id,

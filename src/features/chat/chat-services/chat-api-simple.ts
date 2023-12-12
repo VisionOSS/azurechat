@@ -18,6 +18,20 @@ export const ChatAPISimple = async (props: PromptGPTProps) => {
     userId: userId,
   });
 
+//   console.log(chatThread);
+
+  const systemMessages = {
+    "Marketing": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Marketing topics, providing assistance to employees of a medium-sized software company.`,
+    "Sales": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Sales topics, providing assistance to employees of a medium-sized software company.`,
+    "Global Services": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in professional services topics, providing assistance to employees of a medium-sized software company.`,
+    "Customer Success": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Customer Success topics, providing assistance to employees of a medium-sized software company.`,
+    "Engineering": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Engineering topics, providing assistance to employees of a medium-sized software company.`,
+    "Finance": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Finance topics, providing assistance to employees of a medium-sized software company.`,
+    "HR": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in Human Resources topics, providing assistance to employees of a medium-sized software company.`,
+    "IT": `-You are ${AI_NAME} who is a helpful AI Assistant, specializing in IT topics, providing assistance to employees of a medium-sized software company.`,
+  }
+
+
   await chatHistory.addMessage({
     content: lastHumanMessage.content,
     role: "user",
@@ -31,7 +45,7 @@ export const ChatAPISimple = async (props: PromptGPTProps) => {
       messages: [
         {
           role: "system",
-          content: `-You are ${AI_NAME} who is a helpful AI Assistant.
+          content: `${systemMessages[chatThread.conversationPersona]}
           - You will provide clear and concise queries, and you will respond with polite and professional answers.
           - You will answer questions truthfully and accurately.`,
         },
