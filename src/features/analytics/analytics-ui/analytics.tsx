@@ -10,9 +10,8 @@ import ChatActivityChart from "./charts/chat-activity-chart";
 
 import "./analytics.css";
 import PersonaSplitChart from "./charts/persona-split-chart";
-import { max } from "date-fns";
 import UserActivityTable from "./charts/user-activity-table";
-import { UserActivityTableProps } from "../models";
+import { UserCount } from "../models";
 
 export type AnalyticsProp = {
     searchParams: {
@@ -41,8 +40,7 @@ export const Analytics = (props: AnalyticsProp) => {
         labels: [],
         values: [],
     });
-    const [userCountData, setUserCountData] =
-        useState<UserActivityTableProps>();
+    const [userCountData, setUserCountData] = useState<UserCount[]>([]);
     const [dailyChatCountLoading, setDailyChatCountLoading] = useState(true);
     const [personaSplitLoading, setPersonaSplitLoading] = useState(true);
     const [userCountLoading, setUserCountLoading] = useState(true);
@@ -167,7 +165,7 @@ export const Analytics = (props: AnalyticsProp) => {
                 <div className="flex flex-row justify-center space-x-4">
                     <div className="flex-1 min-w-0 flex justify-center items-center w-full">
                         {" "}
-                        {dailyChatCountLoading ? (
+                        {userCountLoading ? (
                             <div className="loader-container flex justify-center items-center w-full h-full">
                                 <div className="loader"></div>
                             </div>

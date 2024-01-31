@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import {
+    BarChart,
   LayoutDashboard,
   MessageCircle,
   PanelLeftClose,

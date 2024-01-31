@@ -10,7 +10,6 @@ import React from "react";
 import { UserActivityTableProps, UserCount } from "../../models";
 
 const UserActivityTable: React.FC<UserActivityTableProps> = ({ data }) => {
-    console.log(data);
     return (
         <div className="w-full">
             <h3 className=" my-4 flex justify-center">User Activity</h3>
