@@ -1,19 +1,22 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-const requireAuth: string[] = ["/chat", "/api","/reporting", "/unauthorized"];
-const requireAdmin: string[] = ["/reporting"];
-
+const requireAuth: string[] = [
+    "/chat",
+    "/api",
+    "/analytics",
+    "/reporting",
+    "/unauthorized",
+];
+const requireAdmin: string[] = ["/reporting", "/analytics"];
 
 export async function middleware(request: NextRequest) {
-
     const res = NextResponse.next();
     const pathname = request.nextUrl.pathname;
 
     if (requireAuth.some((path) => pathname.startsWith(path))) {
-
         const token = await getToken({
-            req: request
+            req: request,
         });
 
         //check not logged in
@@ -35,4 +38,11 @@ export async function middleware(request: NextRequest) {
 }
 
 // note that middleware is not applied to api/auth as this is required to logon (i.e. requires anon access)
-export const config = { matcher: ["/chat/:path*", "/reporting/:path*", "/api/chat:path*"] };
+export const config = {
+    matcher: [
+        "/chat/:path*",
+        "/analytics/:path*",
+        "/reporting/:path*",
+        "/api/chat:path*",
+    ],
+};

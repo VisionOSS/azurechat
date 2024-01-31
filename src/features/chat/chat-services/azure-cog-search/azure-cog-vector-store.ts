@@ -132,6 +132,10 @@ export const deleteDocuments = async (chatThreadId: string): Promise<void> => {
     filter: `chatThreadId eq '${chatThreadId}'`,
   });
 
+  if (!documentsInChat.length) {
+    return;
+  }
+
   const documentsToDelete: DocumentDeleteModel[] = [];
 
   documentsInChat.forEach(async (document: { id: string }) => {

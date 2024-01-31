@@ -26,8 +26,10 @@
     "@types/react-dom": "^18.2.14",
     "ai": "^2.2.20",
     "autoprefixer": "^10.4.16",
+    "chart.js": "^4.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "date-fns": "^3.3.1",
     "eslint": "^8.52.0",
     "eslint-config-next": "^14.0.0",
     "lucide-react": "^0.290.0",
@@ -39,6 +41,8 @@
     "openai": "^4.14.2",
     "postcss": "^8.4.31",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^5.0.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
     "tailwind-merge": "^2.0.0",
@@ -48,6 +52,7 @@
   },
   "devDependencies": {
     "@types/prismjs": "^1.26.2",
+    "@types/react-datepicker": "^4.19.5",
     "@types/react-syntax-highlighter": "^15.5.7"
   }
 }
