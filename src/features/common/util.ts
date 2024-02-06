@@ -1,5 +1,7 @@
 import { customAlphabet } from "nanoid";
 
+import { ChatThreadModel } from "../chat-page/chat-services/models";
+
 export const uniqueId = () => {
     const alphabet =
         "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -48,4 +50,10 @@ export const getChartStyle = (theme: string | undefined) => {
                 gridColor: "rgba(0, 0, 0, 0.1)",
             };
     }
+};
+
+export const sortByTimestamp = (a: ChatThreadModel, b: ChatThreadModel) => {
+  return (
+    new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime()
+  );
 };
