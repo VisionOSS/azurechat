@@ -13,6 +13,7 @@ import {
   PocketKnife,
   Sheet,
   VenetianMask,
+  PieChart
 } from "lucide-react";
 import { getCurrentUser } from "../auth-page/helpers";
 import { MenuLink } from "./menu-link";
@@ -53,6 +54,15 @@ export const MainMenu = async () => {
               <Book {...menuIconProps} />
             </MenuLink>
           </MenuItem>
+          {user.isAdmin && (
+            <>
+              <MenuItem tooltip="analytics">
+                <MenuLink href="/analytics">
+                  <PieChart {...menuIconProps} />
+                </MenuLink>
+              </MenuItem>
+            </>
+          )}
           {user.isAdmin && (
             <>
               <MenuItem tooltip="reporting">

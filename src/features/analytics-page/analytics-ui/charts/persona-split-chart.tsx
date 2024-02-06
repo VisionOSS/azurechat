@@ -34,7 +34,7 @@ const PersonaSplitChart: React.FC<PersonaSplitChartProps> = ({ data }) => {
         labels: data.labels,
         datasets: [
             {
-                label: "Chats By Department",
+                label: "Chats By Persona",
                 data: data.values,
                 backgroundColor: "rgba(54, 162, 235, 0.2)",
                 borderColor: "rgba(54, 162, 235, 1)",

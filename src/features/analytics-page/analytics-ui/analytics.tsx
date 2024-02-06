@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { Card } from "@/components/ui/card";
+import { Card } from "../../ui/card";
 import ChatActivityChart from "./charts/chat-activity-chart";
 
 import "./analytics.css";
@@ -86,8 +86,6 @@ export const Analytics = (props: AnalyticsProp) => {
                     throw new Error(`Error: ${response.status}`);
                 }
                 const dailyChatCountData = await response.json();
-                console.log(dailyChatCountData);
-
                 setUserCountData(dailyChatCountData);
             } catch (error) {
                 console.error("Failed to fetch data:", error);
@@ -102,7 +100,7 @@ export const Analytics = (props: AnalyticsProp) => {
     }, [startDate, endDate]);
 
     return (
-        <Card className="h-full flex pt-8 overflow-y-auto">
+        <div className="w-full h-full mx-4 flex pt-8 overflow-y-auto">
             <div className="w-full mx-4 space-y-8">
                 <div>
                     <h2 className="text-2xl font-bold tracking-tight">
@@ -144,7 +142,7 @@ export const Analytics = (props: AnalyticsProp) => {
                                 <div className="loader"></div>
                             </div>
                         ) : (
-                            <div className="chart-container w-full h-full flex justify-center items-center">
+                            <div className="chart-container w-full h-full flex justify-center items-center px-4">
                                 <ChatActivityChart data={dailyChatCountData} />
                             </div>
                         )}
@@ -156,7 +154,7 @@ export const Analytics = (props: AnalyticsProp) => {
                                 <div className="loader"></div>
                             </div>
                         ) : (
-                            <div className="chart-container w-full h-full flex justify-center items-center">
+                            <div className="chart-container w-full h-full flex justify-center items-center px-4">
                                 <PersonaSplitChart data={personaSplitData} />
                             </div>
                         )}
@@ -178,6 +176,6 @@ export const Analytics = (props: AnalyticsProp) => {
                     <div className="flex-1 min-w-0 flex justify-center items-center w-full"></div>
                 </div>
             </div>
-        </Card>
+        </div>
     );
 };

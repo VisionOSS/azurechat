@@ -2,7 +2,7 @@ import {
     getMessageCountsPerDay,
     getPersonaCounts,
     getUserCounts,
-} from "@/features/analytics/analytics-services/analytics-service";
+} from "@/features/analytics-page/analytics-services/analytics-service";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -33,6 +33,8 @@ export async function GET(req: Request) {
 
         return NextResponse.json(data, { status: 200 });
     } catch (error) {
+        console.log(error);
+
         return NextResponse.json(
             { message: "Error fetching data", error: error },
             { status: 500 }
