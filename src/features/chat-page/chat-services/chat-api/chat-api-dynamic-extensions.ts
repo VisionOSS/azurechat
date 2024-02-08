@@ -13,6 +13,9 @@ import {
 } from "@/features/extensions-page/extension-services/models";
 import { RunnableToolFunction } from "openai/lib/RunnableFunction";
 import { ToolsInterface } from "../models";
+import { SearchAzureAISimilarDocuments } from "./chat-api-rag-extension";
+import { ExtensionSimilaritySearch } from "../azure-ai-search/azure-ai-search";
+import { CreateCitations } from "../citation-service";
 export const GetDynamicExtensions = async (props: {
   extensionIds: string[];
 }): Promise<ServerActionResponse<Array<any>>> => {
@@ -114,13 +117,41 @@ async function executeFunction(props: {
       requestInit.body = JSON.stringify(args.body);
     }
 
-    const response = await fetch(functionModel.endpoint, requestInit);
+    let result;
+    if (functionModel.endpoint.indexOf("/api/document") === -1) {
+        const response = await fetch(functionModel.endpoint, requestInit);
+        if (!response.ok) {
+            return `There was an error calling the api: ${response.statusText}`;
+          }
+      
+          result = await response.json();
+        } else {
+            const search = args.body.search as string;
 
-    if (!response.ok) {
-      return `There was an error calling the api: ${response.statusText}`;
-    }
-
-    const result = await response.json();
+            const vectors = headers["vectors"] as string;
+            const apiKey = headers["apiKey"] as string;
+            const searchName = headers["searchName"] as string;
+            const indexName = headers["indexName"] as string;
+        
+            const response = await ExtensionSimilaritySearch({
+                apiKey,
+                searchName,
+                indexName,
+                vectors: vectors.split(","),
+                searchText: search,
+            });
+        
+            if (response.status !== "OK") {
+            console.error("🔴 Retrieving documents", response.errors);
+            return new Response(JSON.stringify(result));
+            }
+        
+            const citationResponse = await CreateCitations(response.response);
+        
+            // only get the citations that are ok
+            const allCitations = citationResponse.filter((c) => c.status === "OK");
+            result = JSON.stringify(allCitations);
+        }
 
     return {
       id: functionModel.id,

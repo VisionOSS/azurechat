@@ -27,6 +27,11 @@ class FileStore {
 
       formData.append("id", chatThreadId);
       const file: File | null = formData.get("file") as unknown as File;
+      let indexName;
+      if (formData.get("index") !== null) {
+        indexName = formData.get("index") as string;
+      }
+
 
       this.uploadButtonLabel = "Processing document";
       const crackingResponse = await CrackDocument(formData);
@@ -45,7 +50,8 @@ class FileStore {
           const indexResponses = await IndexDocuments(
             file.name,
             [doc],
-            chatThreadId
+            chatThreadId,
+            indexName
           );
 
           documentIndexResponses.push(...indexResponses);

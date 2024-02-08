@@ -21,7 +21,15 @@ export const CrackDocument = async (
   formData: FormData
 ): Promise<ServerActionResponse<string[]>> => {
   try {
-    const response = await EnsureIndexIsCreated();
+    let response;
+    const indexName = formData.get("index");
+    if (indexName !== null && !(indexName instanceof File))
+    {
+        response = await EnsureIndexIsCreated(indexName);
+
+    } else {
+        response = await EnsureIndexIsCreated();
+    }
     if (response.status === "OK") {
       const fileResponse = await LoadFile(formData);
       if (fileResponse.status === "OK") {

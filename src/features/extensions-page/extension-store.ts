@@ -69,8 +69,6 @@ class ExtensionState {
       errors: [],
     };
 
-    console.log(modelToSubmit);
-
     const response =
       modelToSubmit.id === ""
         ? await CreateExtension(modelToSubmit)

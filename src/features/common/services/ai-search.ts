@@ -24,12 +24,12 @@ export const AzureAISearchCredentials = () => {
   };
 };
 
-export const AzureAISearchInstance = <T extends object>() => {
+export const AzureAISearchInstance = <T extends object>(customIndexName?: string) => {
   const { apiKey, endpoint, indexName } = AzureAISearchCredentials();
 
   const searchClient = new SearchClient<T>(
     endpoint,
-    indexName,
+    customIndexName ? customIndexName : indexName,
     new AzureKeyCredential(apiKey)
   );
 

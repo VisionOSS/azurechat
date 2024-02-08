@@ -107,8 +107,6 @@ export const CreateExtension = async (
 
     const validatedFields = validateSchema(modelToSave);
 
-    console.log(modelToSave);
-
     if (validatedFields.status === "OK") {
       await secureHeaderValues(modelToSave);
 

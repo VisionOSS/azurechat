@@ -13,7 +13,8 @@ import {
   PocketKnife,
   Sheet,
   VenetianMask,
-  PieChart
+  PieChart,
+  UploadCloud
 } from "lucide-react";
 import { getCurrentUser } from "../auth-page/helpers";
 import { MenuLink } from "./menu-link";
@@ -68,6 +69,15 @@ export const MainMenu = async () => {
               <MenuItem tooltip="reporting">
                 <MenuLink href="/reporting">
                   <Sheet {...menuIconProps} />
+                </MenuLink>
+              </MenuItem>
+            </>
+          )}
+          {user.isAdmin && (
+            <>
+              <MenuItem tooltip="ingest">
+                <MenuLink href="/ingest">
+                  <UploadCloud {...menuIconProps} />
                 </MenuLink>
               </MenuItem>
             </>

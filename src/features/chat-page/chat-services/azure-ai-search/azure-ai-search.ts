@@ -200,7 +200,8 @@ export const ExtensionSimilaritySearch = async (props: {
 export const IndexDocuments = async (
   fileName: string,
   docs: string[],
-  chatThreadId: string
+  chatThreadId: string,
+  customIndexName?: string
 ): Promise<Array<ServerActionResponse<boolean>>> => {
   try {
     const documentsToIndex: AzureSearchDocumentIndex[] = [];
@@ -218,7 +219,7 @@ export const IndexDocuments = async (
       documentsToIndex.push(docToAdd);
     }
 
-    const instance = AzureAISearchInstance();
+    const instance = AzureAISearchInstance(customIndexName);
     const embeddingsResponse = await EmbedDocuments(documentsToIndex);
 
     if (embeddingsResponse.status === "OK") {
@@ -348,28 +349,28 @@ export const EmbedDocuments = async (
   }
 };
 
-export const EnsureIndexIsCreated = async (): Promise<
+export const EnsureIndexIsCreated = async (indexName?: string): Promise<
   ServerActionResponse<SearchIndex>
 > => {
   try {
     const client = AzureAISearchIndexClientInstance();
-    const result = await client.getIndex(process.env.AZURE_SEARCH_INDEX_NAME);
+    const result = await client.getIndex(indexName ? indexName : process.env.AZURE_SEARCH_INDEX_NAME);
     return {
       status: "OK",
       response: result,
     };
   } catch (e) {
-    return await CreateSearchIndex();
+    return await CreateSearchIndex(indexName ? indexName : process.env.AZURE_SEARCH_INDEX_NAME);
   }
 };
 
-const CreateSearchIndex = async (): Promise<
+const CreateSearchIndex = async (indexName?: string): Promise<
   ServerActionResponse<SearchIndex>
 > => {
   try {
     const client = AzureAISearchIndexClientInstance();
     const result = await client.createIndex({
-      name: process.env.AZURE_SEARCH_INDEX_NAME,
+      name: indexName ? indexName : process.env.AZURE_SEARCH_INDEX_NAME,
       vectorSearch: {
         algorithms: [
           {
