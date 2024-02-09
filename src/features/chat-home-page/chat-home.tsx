@@ -1,3 +1,5 @@
+"use client";
+
 import { AddExtension } from "@/features/extensions-page/add-extension/add-new-extension";
 import { ExtensionCard } from "@/features/extensions-page/extension-card/extension-card";
 import { ExtensionModel } from "@/features/extensions-page/extension-services/models";
@@ -10,6 +12,10 @@ import Image from "next/image";
 import { FC } from "react";
 import { NewChat } from "../chat-page/chat-menu/new-chat";
 import { CreateChatAndRedirect } from "../chat-page/chat-services/chat-thread-service";
+import { Button } from "../ui/button";
+import { useFormStatus } from "react-dom";
+import { LoadingIndicator } from "../ui/loading";
+import { MessageCircle, Plus } from "lucide-react";
 
 
 interface ChatPersonaProps {
@@ -18,7 +24,8 @@ interface ChatPersonaProps {
 }
 
 export const ChatHome: FC<ChatPersonaProps> = async (props) => {
-  return (
+    const { pending } = useFormStatus();
+    return (
     <ScrollArea className="flex-1">
       <main className="flex flex-1 flex-col gap-6 pb-6">
         <Hero
@@ -46,7 +53,15 @@ export const ChatHome: FC<ChatPersonaProps> = async (props) => {
                 conversation with an expert assistant.
             </p>
                 <form action={CreateChatAndRedirect} className="flex gap-2 pr-3">
-                    <NewChat />
+                    <Button
+                        aria-disabled={pending}
+                        size={"lg"}
+                        className="flex gap-2 text-lg"
+                        >
+                        {pending ? <LoadingIndicator isLoading={pending} /> : <MessageCircle size={20} />}
+                        New Chat
+                    </Button>
+
                 </form>
             </div>
         </Hero>
