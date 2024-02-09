@@ -85,14 +85,14 @@ export const ChatInput = () => {
           <PromptSlider />
         </ChatInputSecondaryActionArea>
         <ChatInputPrimaryActionArea>
-          <ImageInput />
+          {/* <ImageInput />
           <Microphone
             startRecognition={() => speechToTextStore.startRecognition()}
             stopRecognition={() => speechToTextStore.stopRecognition()}
             isPlaying={isPlaying}
             stopPlaying={() => textToSpeechStore.stopPlaying()}
             isMicrophoneReady={isMicrophoneReady}
-          />
+          /> */}
           {loading === "loading" ? (
             <StopChat stop={() => chatStore.stopGeneratingMessages()} />
           ) : (

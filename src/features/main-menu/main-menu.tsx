@@ -32,24 +32,32 @@ export const MainMenu = async () => {
               <Home {...menuIconProps} />
             </MenuLink>
           </MenuItem>
-          <MenuTrayToggle />
-        </MenuItemContainer>
-        <MenuItemContainer>
+          {/* <MenuTrayToggle /> */}
+        {/* </MenuItemContainer>
+        <MenuItemContainer> 
           <MenuItem tooltip="Chat">
             <MenuLink href="/chat">
               <MessageCircle {...menuIconProps} />
             </MenuLink>
-          </MenuItem>
+          </MenuItem> */}
+          {user.isAdmin && (
+            <>
           <MenuItem tooltip="Persona">
             <MenuLink href="/persona">
               <VenetianMask {...menuIconProps} />
             </MenuLink>
           </MenuItem>
+          </>
+          )}
+          {user.isAdmin && (
+            <>
           <MenuItem tooltip="extensions">
             <MenuLink href="/extensions">
               <PocketKnife {...menuIconProps} />
             </MenuLink>
           </MenuItem>
+          </>
+          )}
           <MenuItem tooltip="prompts">
             <MenuLink href="/prompt">
               <Book {...menuIconProps} />

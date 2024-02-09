@@ -8,13 +8,16 @@ import { Hero } from "@/features/ui/hero";
 import { ScrollArea } from "@/features/ui/scroll-area";
 import Image from "next/image";
 import { FC } from "react";
+import { NewChat } from "../chat-page/chat-menu/new-chat";
+import { CreateChatAndRedirect } from "../chat-page/chat-services/chat-thread-service";
+
 
 interface ChatPersonaProps {
   personas: PersonaModel[];
   extensions: ExtensionModel[];
 }
 
-export const ChatHome: FC<ChatPersonaProps> = (props) => {
+export const ChatHome: FC<ChatPersonaProps> = async (props) => {
   return (
     <ScrollArea className="flex-1">
       <main className="flex flex-1 flex-col gap-6 pb-6">
@@ -32,9 +35,23 @@ export const ChatHome: FC<ChatPersonaProps> = (props) => {
             </>
           }
           description={AI_DESCRIPTION}
-        ></Hero>
+        >
+            <div className="col-span-3 space-y-4">
+            <p className="text-muted-foreground">
+                Click on the{" "}
+                <strong style={{ color: "white" }}>New chat</strong>{" "}
+                button to start a general conversation{" "}
+                <strong style={{ color: "white" }}>OR</strong>{" "}
+                select from the list of Personas below to start a
+                conversation with an expert assistant.
+            </p>
+                <form action={CreateChatAndRedirect} className="flex gap-2 pr-3">
+                    <NewChat />
+                </form>
+            </div>
+        </Hero>
         <div className="container max-w-4xl flex gap-20 flex-col">
-          <div>
+          {/* <div>
             <h2 className="text-2xl font-bold mb-3">Extensions</h2>
 
             {props.extensions && props.extensions.length > 0 ? (
@@ -53,7 +70,7 @@ export const ChatHome: FC<ChatPersonaProps> = (props) => {
               <p className="text-muted-foreground max-w-xl">No extentions created</p>
             }
 
-          </div>
+          </div> */}
           <div>
             <h2 className="text-2xl font-bold mb-3">Personas</h2>
 

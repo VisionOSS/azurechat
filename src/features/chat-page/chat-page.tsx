@@ -16,6 +16,7 @@ import {
   ChatThreadModel,
 } from "./chat-services/models";
 import MessageContent from "./message-content";
+import { getCurrentUser } from "../auth-page/helpers";
 
 interface ChatPageProps {
   messages: Array<ChatMessageModel>;
@@ -24,7 +25,7 @@ interface ChatPageProps {
   extensions: Array<ExtensionModel>;
 }
 
-export const ChatPage: FC<ChatPageProps> = (props) => {
+export const ChatPage: FC<ChatPageProps> =  (props) => {
   const { data: session } = useSession();
 
   useEffect(() => {
@@ -51,7 +52,8 @@ export const ChatPage: FC<ChatPageProps> = (props) => {
       <ChatMessageContainer ref={current}>
         <ChatMessageContentArea>
           {messages.map((message) => {
-            return (
+            if (session?.user.isAdmin || (!session?.user.isAdmin && message.role !== "tool" && message.role !== "function")) {
+                return (
               <ChatMessageArea
                 key={message.id}
                 profileName={message.name}
@@ -68,6 +70,7 @@ export const ChatPage: FC<ChatPageProps> = (props) => {
                 <MessageContent message={message} />
               </ChatMessageArea>
             );
+            }
           })}
           {loading === "loading" && <ChatLoading />}
         </ChatMessageContentArea>
