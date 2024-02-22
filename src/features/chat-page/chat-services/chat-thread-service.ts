@@ -289,6 +289,7 @@ export const CreateChatThread = async (): Promise<
       personaMessage: "",
       personaMessageTitle: CHAT_DEFAULT_PERSONA,
       extension: [],
+      temperature: 0.5,
     };
 
     const { resource } = await HistoryContainer().items.create<ChatThreadModel>(

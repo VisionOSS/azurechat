@@ -81,6 +81,7 @@ ${userMessage}
 
   const stream: ChatCompletionStreamParams = {
     model: "",
+    temperature: chatThread.temperature !== undefined ? chatThread.temperature : 0.5,
     stream: true,
     messages: [
       {

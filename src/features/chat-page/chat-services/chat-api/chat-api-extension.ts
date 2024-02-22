@@ -21,6 +21,7 @@ export const ChatApiExtensions = async (props: {
   return openAI.beta.chat.completions.runTools(
     {
       model: "",
+      temperature: chatThread.temperature !== undefined ? chatThread.temperature : 0.5,
       stream: true,
       messages: [
         {

@@ -304,6 +304,7 @@ export const CreatePersonaChat = async (
       personaMessage: persona.personaMessage,
       personaMessageTitle: persona.name,
       extension: persona.extension ? persona.extension : [],
+      temperature: persona.temperature !== undefined ? persona.temperature : 0.5,
     });
 
     return response;

@@ -18,6 +18,7 @@ const UserActivityTable: React.FC<UserActivityTableProps> = ({ data }) => {
                     <TableRow>
                         <TableHead className="w-[200px]">User</TableHead>
                         <TableHead className="w-[200px]">Chat Count</TableHead>
+                        <TableHead className="w-[200px]">Last Active</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -26,6 +27,11 @@ const UserActivityTable: React.FC<UserActivityTableProps> = ({ data }) => {
                             <TableRow key={userChatCount.userName}>
                                 <TableCell>{userChatCount.userName}</TableCell>
                                 <TableCell>{userChatCount.chatCount}</TableCell>
+                                <TableCell>
+                                    {new Date(
+                                        userChatCount.lastActiveDate
+                                    ).toLocaleString()}
+                                </TableCell>
                             </TableRow>
                         ))}
                 </TableBody>

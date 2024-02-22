@@ -29,4 +29,5 @@ export const PersonaModelSchema = z.object({
   type: z.literal(PERSONA_ATTRIBUTE),
   createdAt: z.date(),
   extension: z.array(z.string()).optional(),
+  temperature: z.number().optional(),
 });

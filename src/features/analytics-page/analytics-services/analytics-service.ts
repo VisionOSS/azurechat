@@ -31,7 +31,7 @@ export const getMessageCountsPerDay = async (
 
     const { resources } = await HistoryContainer()
         .items.query(querySpec)
-        .fetchNext();
+        .fetchAll();
 
     const startDateRange = new Date(extractDate(<string>startDate));
     const endDateRange = new Date(extractDate(<string>endDate));
@@ -77,7 +77,7 @@ export const getPersonaCounts = async (
 
     const { resources } = await HistoryContainer()
         .items.query(querySpec)
-        .fetchNext();
+        .fetchAll();
 
     const labels = resources.map((record) => record.personaMessageTitle);
     const values = resources.map((record) => record.personaCount);
@@ -90,7 +90,7 @@ export const getUserCounts = async (
     endDate: string | null
 ) => {
     const querySpec: SqlQuerySpec = {
-        query: `SELECT c.useName AS userName, COUNT(1) AS chatCount
+        query: `SELECT c.useName AS userName, COUNT(1) AS chatCount, MAX(c.createdAt) AS lastActiveDate
         FROM c
         WHERE c.type = 'CHAT_THREAD'
             AND c.createdAt >= '${startDate}'
@@ -100,7 +100,7 @@ export const getUserCounts = async (
 
     const { resources } = await HistoryContainer()
         .items.query(querySpec)
-        .fetchNext();
+        .fetchAll();
 
     const sortedResults = resources.sort((a, b) => b.chatCount - a.chatCount);
 
