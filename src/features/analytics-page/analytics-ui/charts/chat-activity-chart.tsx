@@ -9,12 +9,23 @@ import {
     Title,
     Tooltip,
     Legend,
+    PointElement,
+    LineElement,
 } from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Bar, Line } from "react-chartjs-2";
 
-import { getChartStyle } from "../../../common/util";
+import { getChartStyle, MovingAverage } from "../../../common/util";
 
-Chart.register(BarElement, CategoryScale, LinearScale, Title, Tooltip, Legend);
+Chart.register(
+    BarElement,
+    CategoryScale,
+    LinearScale,
+    Title,
+    Tooltip,
+    Legend,
+    PointElement,
+    LineElement
+);
 
 type ChartData = {
     labels: string[];
@@ -42,15 +53,26 @@ const ChatActivityChart: React.FC<ChatActivityChartProps> = ({ data }) => {
 
     const friendlyDateLabels = formatDateLabels(data.labels);
 
+    const movingAverageData = MovingAverage(data.values, 5);
+
     const chartData = {
         labels: friendlyDateLabels,
         datasets: [
             {
+                type: "bar",
                 label: "Number of Unique Chats",
                 data: data.values,
                 backgroundColor: "rgba(104, 189, 23, 0.2)",
                 borderColor: "rgba(104, 189, 23, 1)",
                 borderWidth: 1,
+            },
+            {
+                label: "Moving Average of Unique Chats",
+                data: movingAverageData,
+                type: "line", // This will create a line chart
+                fill: false,
+                borderColor: "rgba(251, 196, 3, 0.5)",
+                tension: 0.08,
             },
         ],
     };
@@ -88,7 +110,7 @@ const ChatActivityChart: React.FC<ChatActivityChartProps> = ({ data }) => {
         },
     };
 
-    return <Bar data={chartData} options={options} />;
+    return <Bar data={chartData as any} options={options} />;
 };
 
 export default ChatActivityChart;

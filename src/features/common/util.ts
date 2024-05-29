@@ -53,7 +53,24 @@ export const getChartStyle = (theme: string | undefined) => {
 };
 
 export const sortByTimestamp = (a: ChatThreadModel, b: ChatThreadModel) => {
-  return (
-    new Date(b.lastMessageAt).getTime() - new Date(a.lastMessageAt).getTime()
-  );
+    return (
+        new Date(b.lastMessageAt).getTime() -
+        new Date(a.lastMessageAt).getTime()
+    );
 };
+
+export function MovingAverage(data: number[], n: number): number[] {
+    let ret = Array(data.length).fill(0);
+    for (let i = 0; i < data.length; i++) {
+        if (i >= n) {
+            let sum = 0;
+            for (let j = 0; j < n; j++) {
+                sum += data[i - j];
+            }
+            ret[i] = sum / n;
+        } else {
+            ret[i] = data[i];
+        }
+    }
+    return ret;
+}
