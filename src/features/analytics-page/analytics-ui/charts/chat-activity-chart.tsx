@@ -10,6 +10,7 @@ import {
     Tooltip,
     Legend,
     PointElement,
+    LineController,
     LineElement,
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
@@ -24,6 +25,7 @@ Chart.register(
     Tooltip,
     Legend,
     PointElement,
+    LineController,
     LineElement
 );
 
